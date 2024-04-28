@@ -1,6 +1,5 @@
-local player = game:GetService("Players")
+local player = game.Players.LocalPlayer
 local TweenService = game:GetService("TweenService")
-local bandits = game.Workspace.Enemies:GetChildren()
 local Players = game:GetService("Players")
 
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
@@ -16,7 +15,14 @@ function GetDistance(point1, point2)
 end
 
 function BringBandit()
-    local playerPosition = player.Character.HumanoidRootPart.Position
+    local playerCharacter = player.Character
+    if not playerCharacter or not playerCharacter:FindFirstChild("HumanoidRootPart") then
+        return
+    end
+
+    local playerPosition = playerCharacter.HumanoidRootPart.Position
+    local bandits = game.Workspace.Enemies:GetChildren()
+
     for _, bandit in ipairs(bandits) do
         if bandit:IsA("Model") and bandit.Name == "Bandit" and bandit.PrimaryPart then
             local banditPosition = bandit.PrimaryPart.Position
@@ -27,6 +33,9 @@ function BringBandit()
                 hbandit.WalkSpeed = 0
 
                 bandit:SetPrimaryPartCFrame(CFrame.new(playerPosition.X, playerPosition.Y, playerPosition.Z))
+
+                -- You may want to reset the WalkSpeed after moving the bandit
+                hbandit.WalkSpeed = 16 -- Or whatever the default WalkSpeed should be
             end
         end
     end
