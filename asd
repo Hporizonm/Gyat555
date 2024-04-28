@@ -24,8 +24,6 @@ function BringBandit()
             local hbandit = bandit.Humanoid
 
             if distance <= 500 then
-                hbandit.WalkSpeed = 0
-
                 bandit:SetPrimaryPartCFrame(CFrame.new(playerPosition.X, playerPosition.Y, playerPosition.Z))
             end
         end
